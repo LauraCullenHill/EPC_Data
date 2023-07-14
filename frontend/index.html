@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OpenDataCommunities API Demo</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>OpenDataCommunities API Demo</h1>
+
+  <table id="epcData">
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>Current Energy Rating</th>
+        <th>Potential Energy Rating</th>
+        <!-- Add more column headers here based on the API response -->
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Function to fetch data from the API and update the table
+    async function fetchEPCData() {
+      try {
+        const response = await fetch('URL_TO_YOUR_API_ENDPOINT');
+        if (response.ok) {
+          const data = await response.json();
+          const epcData = data.rows;
+
+          // Get the table body element
+          const tableBody = document.querySelector('#epcData tbody');
+
+          // Clear existing table rows
+          tableBody.innerHTML = '';
+
+          // Populate the table with data
+          epcData.forEach((row) => {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+              <td>${row.address}</td>
+              <td>${row.current-energy-rating}</td>
+              <td>${row.potential-energy-rating}</td>
+              <!-- Add more table cells here based on the API response -->
+            `;
+            tableBody.appendChild(newRow);
+          });
+        } else {
+          console.error('Failed to fetch data from the API');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Call the fetchEPCData function to populate the table on page load
+    fetchEPCData();
+  </script>
+</body>
+</html>
